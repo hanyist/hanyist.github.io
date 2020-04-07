@@ -1,0 +1,573 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>MongoDB系统管理-标准文档 | 寒枫的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="寒枫">
+    
+
+    
+    <meta name="description" content="MongoDB系统管理  本文档主要用于说明XXX系统的部署  声明  包括但不限于本文所述内容（包括文字和图片），本文档作者拥有完全独立的唯一版权。未经作者书面同意或授权，任何单位和个人都不得将其复制、影印或引用。  文档修订|版本|日期|AMD|修订者|说明||————-|———————|————|—————|————————————————-||1.0|2020年2月01日|A|寒枫(han">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MongoDB系统管理-标准文档">
+<meta property="og:url" content="http://yoursite.com/2020/04/07/mongodb-manage/index.html">
+<meta property="og:site_name" content="寒枫的博客">
+<meta property="og:description" content="MongoDB系统管理  本文档主要用于说明XXX系统的部署  声明  包括但不限于本文所述内容（包括文字和图片），本文档作者拥有完全独立的唯一版权。未经作者书面同意或授权，任何单位和个人都不得将其复制、影印或引用。  文档修订|版本|日期|AMD|修订者|说明||————-|———————|————|—————|————————————————-||1.0|2020年2月01日|A|寒枫(han">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-07T08:18:36.000Z">
+<meta property="article:modified_time" content="2020-04-07T08:22:48.495Z">
+<meta property="article:author" content="寒枫">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="寒枫的博客" type="application/atom+xml">
+    
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="寒枫的博客">寒枫的博客</a></h1>
+				<h2 class="blog-motto">志存高远</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/categories/操作系统">系统</a></li>
+					
+						<li><a href="/categories/数据库">数据库</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/07/mongodb-manage/" title="MongoDB系统管理-标准文档" itemprop="url">MongoDB系统管理-标准文档</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="寒枫" target="_blank" itemprop="author">寒枫</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-07T08:18:36.000Z" itemprop="datePublished"> 发表于 2020-04-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<p><strong><p align=center><font  size =6 >MongoDB系统管理</font></p></strong></p>
+<hr>
+<p align=right>本文档主要用于说明XXX系统的部署</p>
+
+<p><strong>声明</strong></p>
+<blockquote>
+<p>包括但不限于本文所述内容（包括文字和图片），本文档作者拥有完全独立的唯一版权。未经作者书面同意或授权，任何单位和个人都不得将其复制、影印或引用。</p>
+</blockquote>
+<p><strong>文档修订</strong><br>|版本|日期|AMD|修订者|说明|<br>|————-|———————|————|—————|————————————————-|<br>|1.0|2020年2月01日|A|寒枫(<a href="mailto:hanyist@163.com">hanyist@163.com</a>)|创建手册,仅供学习参考！|</p>
+<blockquote>
+<p><strong>（A添加、M-修改、D-删除）</strong></p>
+</blockquote>
+<hr>
+<h1 id="第一章-服务管理"><a href="#第一章-服务管理" class="headerlink" title="第一章 服务管理"></a>第一章 服务管理</h1><h2 id="第一节-单机管理"><a href="#第一节-单机管理" class="headerlink" title="第一节 单机管理"></a>第一节 单机管理</h2><h3 id="1-1-服务启动"><a href="#1-1-服务启动" class="headerlink" title="1.1 服务启动"></a>1.1 服务启动</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">mongod</span>@<span class="type">strong</span> ~]<span class="variable">$</span> mongod -<span class="literal">-dbpath</span>=/u01/<span class="keyword">data</span>/db/</span><br><span class="line">–dbpath指定数据目录，默认值为/<span class="keyword">data</span>/db，若不使用默认数据目录，则需通过–dbpath指定数据目录，否则出错。</span><br><span class="line"><span class="number">2.4</span>.<span class="number">2</span> 方法二</span><br><span class="line">[<span class="type">mongod</span>@<span class="type">strong</span> ~]<span class="variable">$</span> mongod -<span class="literal">-dbpath</span>=/u01/<span class="keyword">data</span>/db/ -<span class="literal">-logpath</span>=/u01/<span class="keyword">data</span>/log/mongo.log -<span class="literal">-logappend</span> -<span class="literal">-fork</span></span><br><span class="line">利用–fork选项创建子进程，在后台运行MongoDB,首次启动mongod而数据目录为空时，文件系统需几分钟时间分配数据库文件。预分配结束，mongod可接收连接后，父进程才继续运行。启用–fork选项时，必须同时启用–logpath选项。</span><br><span class="line"><span class="number">2.4</span>.<span class="number">3</span> 方法三</span><br><span class="line">[<span class="type">mongod</span>@<span class="type">strong</span> ~]<span class="variable">$</span> mongod -<span class="literal">-config</span>=/etc/mongo.cnf</span><br><span class="line">about to fork child <span class="keyword">process</span>, waiting <span class="keyword">until</span> server is ready <span class="keyword">for</span> connections.</span><br><span class="line">forked <span class="keyword">process</span>: <span class="number">2493</span></span><br><span class="line">child <span class="keyword">process</span> started successfully, parent exiting</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="1-2-服务关闭"><a href="#1-2-服务关闭" class="headerlink" title="1.2 服务关闭"></a>1.2 服务关闭</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">use admin</span><br><span class="line">switched to db admin</span><br><span class="line">db.shutdownServer()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="第二节-集群管理"><a href="#第二节-集群管理" class="headerlink" title="第二节 集群管理"></a>第二节 集群管理</h2><h3 id="2-1-集群启动"><a href="#2-1-集群启动" class="headerlink" title="2.1 集群启动"></a>2.1 集群启动</h3><p><strong>–启动配置服务器</strong></p>
+<p>1）启动配置服务器副本集（三台Server）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mongod -f /data/mongodb/conf/config.conf</span></span><br></pre></td></tr></table></figure>
+
+<p>2）查看配置服务器状态（任一server）</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mongo localhost:27019/admin -uroot -p</span></span><br><span class="line"><span class="comment"># rs.status()</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>–启动分片服务器</strong></p>
+<p>1）启动每个分片副本集</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mongod -f /data/mongodb/conf/shard11.conf</span></span><br></pre></td></tr></table></figure>
+
+
+<p>2）查看每个分片副本集状态</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mongo localhost:27018/admin -uroot -p</span></span><br><span class="line"><span class="comment"># rs.status()</span></span><br></pre></td></tr></table></figure>
+
+<p>2.3 启动mongos<br>1）启动所有mongos服务器</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mongos -f /data/mongodb/conf/mongos.conf</span></span><br></pre></td></tr></table></figure>
+
+<p>2）连接mongos</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mongo localhost:27017/admin -uroot -p</span></span><br></pre></td></tr></table></figure>
+
+<p>3）查看分片集群状态</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># sh.status()</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-集群停止"><a href="#2-2-集群停止" class="headerlink" title="2.2 集群停止"></a>2.2 集群停止</h3><p>1）关闭mongos服务器<br>关闭每一个mongos进程：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># use admin</span></span><br><span class="line"><span class="comment"># db.shutdownServer()</span></span><br></pre></td></tr></table></figure>
+
+
+<p>2）关闭分片副本集<br>先关闭每个分片的辅助副本集，再关闭主成员。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># use admin</span></span><br><span class="line"><span class="comment"># db.shutdownServer()</span></span><br></pre></td></tr></table></figure>
+
+
+<p>3）关闭配置服务器<br>先关闭配置服务器的辅助副本集，再关闭主成员。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># use admin</span></span><br><span class="line"><span class="comment"># db.shutdownServer()</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="第二章-集群管理"><a href="#第二章-集群管理" class="headerlink" title="第二章 集群管理"></a>第二章 集群管理</h1><h2 id="第一节-基础配置"><a href="#第一节-基础配置" class="headerlink" title="第一节 基础配置"></a>第一节 基础配置</h2><h3 id="1-1-创建用户与用户组"><a href="#1-1-创建用户与用户组" class="headerlink" title="1.1 创建用户与用户组"></a>1.1 创建用户与用户组</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> ~]<span class="comment"># groupadd -g 1001 mongod</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> ~]<span class="comment"># useradd -g 1001 mongod</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> ~]<span class="comment"># id mongod</span></span><br><span class="line">uid=<span class="number">500</span>(mongod) gid=<span class="number">1001</span>(mongod) groups=<span class="number">1001</span>(mongod)</span><br><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> ~]<span class="comment"># passwd mongod</span></span><br><span class="line">Changing password <span class="keyword">for</span> user mongod.</span><br><span class="line">New password:</span><br><span class="line">BAD PASSWORD: it is based on a dictionary word</span><br><span class="line">BAD PASSWORD: is too simple</span><br><span class="line">Retype new password:</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-MongoDB安装"><a href="#1-2-MongoDB安装" class="headerlink" title="1.2 MongoDB安装"></a>1.2 MongoDB安装</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> ~]<span class="comment"># tar zxvf mongodb-linux-x86_64-rhel62-4.2.0.tgz -C /usr/local</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> ~]<span class="comment"># ln -s /usr/local/mongodb-linux-x86_64-rhel62-4.2.0 mongodb</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> ~]<span class="comment"># cd /usr/local/</span></span><br><span class="line">[<span class="type">root</span>@<span class="type">mongos01</span> <span class="type">local</span>]<span class="comment"># chown -R mongod:mongod mongodb/ mongodb-linux-x86_64-rhel62-4.2.0/</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="1-3-生成Key-File文件"><a href="#1-3-生成Key-File文件" class="headerlink" title="1.3 生成Key File文件"></a>1.3 生成Key File文件</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="type">mongod</span>@<span class="type">mongos01</span> <span class="type">conf</span>]<span class="variable">$</span> openssl rand <span class="literal">-base64</span> <span class="number">741</span> &gt; /u01/conf/keyfile</span><br><span class="line">[<span class="type">mongod</span>@<span class="type">mongos01</span> <span class="type">conf</span>]<span class="variable">$</span> chmod <span class="number">400</span> /u01/conf/keyfile</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-4-系统优化"><a href="#1-4-系统优化" class="headerlink" title="1.4 系统优化"></a>1.4 系统优化</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">echo <span class="string">"never"</span> &gt;/sys/kernel/mm/transparent_hugepage/enabled</span><br><span class="line">echo <span class="string">"never"</span> &gt;/sys/kernel/mm/transparent_hugepage/defrag</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="第二节-集群配置"><a href="#第二节-集群配置" class="headerlink" title="第二节 集群配置"></a>第二节 集群配置</h2><h3 id="2-1-初始化配置副本集"><a href="#2-1-初始化配置副本集" class="headerlink" title="2.1 初始化配置副本集"></a>2.1 初始化配置副本集</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">--方法一</span><br><span class="line">config = &#123;</span><br><span class="line">    _id : <span class="string">"config"</span>,</span><br><span class="line">     members : [</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">0</span>, <span class="type">host</span> : <span class="string">"192.168.0.33:21000"</span> &#125;,</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">1</span>, <span class="type">host</span> : <span class="string">"192.168.0.34:21000"</span> &#125;,</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">2</span>, <span class="type">host</span> : <span class="string">"192.168.0.35:21000"</span> &#125;</span><br><span class="line">     ]</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&gt; rs.initiate(config)</span><br><span class="line">方法二</span><br><span class="line">&gt; rs.initiate(&#123;_id:<span class="string">"configs"</span>,members:[&#123;<span class="type">_id</span>:<span class="number">0</span>,<span class="type">host</span>:<span class="string">"192.168.56.131:27018"</span>&#125;,&#123;<span class="type">_id</span>:<span class="number">1</span>,<span class="type">host</span>:<span class="string">"192.168.56.132:27018"</span>&#125;,&#123;<span class="type">_id</span>:<span class="number">2</span>,<span class="type">host</span>:<span class="string">"192.168.56.133:27018"</span>&#125;]&#125;)</span><br><span class="line"><span class="comment">#说明：其中，"_id" : "configs"应与配置文件中配置的 replicaction.replSetName 一致，"members" 中的 "host" 为三个节点的ip和port，这样配置服务器就配置好了</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="2-2-创建root用户"><a href="#2-2-创建root用户" class="headerlink" title="2.2 创建root用户"></a>2.2 创建root用户</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">configReplSet:PRIMARY&gt; use admin</span><br><span class="line">switched to db admin</span><br><span class="line">configReplSet:PRIMARY&gt; db.createUser(&#123;user:<span class="string">'root'</span>,pwd:<span class="string">'root'</span>,roles:[&#123;<span class="type">role</span>:<span class="string">'root'</span>,<span class="type">db</span>:<span class="string">'admin'</span>&#125;]&#125;)</span><br><span class="line">Successfully added user: &#123;</span><br><span class="line"><span class="string">"user"</span> : <span class="string">"root"</span>,</span><br><span class="line"><span class="string">"roles"</span> : [</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"root"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"admin"</span></span><br><span class="line">&#125;</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-3-初始化分片副本集"><a href="#2-3-初始化分片副本集" class="headerlink" title="2.3 初始化分片副本集"></a>2.3 初始化分片副本集</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">--初始化shard1分片</span><br><span class="line">&gt; use admin</span><br><span class="line">&gt; config = &#123;</span><br><span class="line">    _id : <span class="string">"shard1"</span>,</span><br><span class="line">     members : [</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">0</span>, <span class="type">host</span> : <span class="string">"192.168.0.31:27001"</span> &#125;,</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">1</span>, <span class="type">host</span> : <span class="string">"192.168.0.32:27001"</span> &#125;,</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">2</span>, <span class="type">host</span> : <span class="string">"192.168.0.33:27001"</span> &#125;</span><br><span class="line">     ]</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line">&gt; rs.initiate(config)</span><br><span class="line">--初始化shard2分片</span><br><span class="line">&gt; use admin</span><br><span class="line">&gt; config = &#123;</span><br><span class="line">    _id : <span class="string">"shard2"</span>,</span><br><span class="line">     members : [</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">0</span>, <span class="type">host</span> : <span class="string">"192.168.0.32:27002"</span> &#125;,</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">1</span>, <span class="type">host</span> : <span class="string">"192.168.0.33:27002"</span> &#125;,</span><br><span class="line">         &#123;<span class="type">_id</span> : <span class="number">2</span>, <span class="type">host</span> : <span class="string">"192.168.0.34:27002"</span> &#125;</span><br><span class="line">     ]</span><br><span class="line"> &#125;</span><br><span class="line">&gt; rs.initiate(config)</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-4-增加分片"><a href="#2-4-增加分片" class="headerlink" title="2.4 增加分片"></a>2.4 增加分片</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">方法一</span><br><span class="line">mongos&gt; use admin</span><br><span class="line">mongos&gt; sh.addShard(<span class="string">'shard1/192.168.56.131:27001'</span>)</span><br><span class="line">mongos&gt; sh.addShard(<span class="string">'shard1/192.168.56.132:27001'</span>)</span><br><span class="line">mongos&gt; sh.addShard(<span class="string">'shard1/192.168.56.133:27001'</span>)</span><br><span class="line">方法二</span><br><span class="line">sh.addShard(<span class="string">"shard1/192.168.56.131:27001,192.168.56.132:27001,192.168.56.133:27001"</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="2-5-激活数据库分片"><a href="#2-5-激活数据库分片" class="headerlink" title="2.5 激活数据库分片"></a>2.5 激活数据库分片</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mongos&gt; sh.enableSharding(<span class="string">'scott'</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="第三节-服务检查"><a href="#第三节-服务检查" class="headerlink" title="第三节 服务检查"></a>第三节 服务检查</h2><h3 id="3-1-查看分片"><a href="#3-1-查看分片" class="headerlink" title="3.1 查看分片"></a>3.1 查看分片</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">mongos&gt; db.runCommand( &#123; listshards : <span class="number">1</span> &#125; )</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"shards"</span> : [</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"_id"</span> : <span class="string">"rs01"</span>,</span><br><span class="line"><span class="string">"host"</span> : <span class="string">"rs01/192.168.56.102:27018,192.168.56.105:27018,192.168.56.106:27018"</span>,</span><br><span class="line"><span class="string">"state"</span> : <span class="number">1</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"_id"</span> : <span class="string">"rs02"</span>,</span><br><span class="line"><span class="string">"host"</span> : <span class="string">"rs02/192.168.56.107:27018,192.168.56.108:27018"</span>,</span><br><span class="line"><span class="string">"state"</span> : <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line"><span class="string">"ok"</span> : <span class="number">1</span>,</span><br><span class="line"><span class="string">"operationTime"</span> : Timestamp(<span class="number">1570344745</span>, <span class="number">2</span>),</span><br><span class="line"><span class="string">"<span class="variable">$clusterTime</span>"</span> : &#123;</span><br><span class="line"><span class="string">"clusterTime"</span> : Timestamp(<span class="number">1570344745</span>, <span class="number">2</span>),</span><br><span class="line"><span class="string">"signature"</span> : &#123;</span><br><span class="line"><span class="string">"hash"</span> : BinData(<span class="number">0</span>,<span class="string">"ZGZJa6TrR2kGFZoSiS24u/PlgWY="</span>),</span><br><span class="line"><span class="string">"keyId"</span> : NumberLong(<span class="string">"6744546634224369689"</span>)</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="3-2-查看分片集群状态"><a href="#3-2-查看分片集群状态" class="headerlink" title="3.2 查看分片集群状态"></a>3.2 查看分片集群状态</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">mongos&gt; sh.status()</span><br><span class="line">--- Sharding Status ---</span><br><span class="line">sharding version: &#123;</span><br><span class="line"><span class="string">"_id"</span> : <span class="number">1</span>,</span><br><span class="line"><span class="string">"minCompatibleVersion"</span> : <span class="number">5</span>,</span><br><span class="line"><span class="string">"currentVersion"</span> : <span class="number">6</span>,</span><br><span class="line"><span class="string">"clusterId"</span> : ObjectId(<span class="string">"5d99716e39ac52865c39c815"</span>)</span><br><span class="line">&#125;</span><br><span class="line">shards:</span><br><span class="line">&#123; <span class="string">"_id"</span> : <span class="string">"rs01"</span>, <span class="string">"host"</span> : <span class="string">"rs01/192.168.56.102:27018,192.168.56.105:27018,192.168.56.106:27018"</span>, <span class="string">"state"</span> : <span class="number">1</span> &#125;</span><br><span class="line">&#123; <span class="string">"_id"</span> : <span class="string">"rs02"</span>, <span class="string">"host"</span> : <span class="string">"rs02/192.168.56.107:27018,192.168.56.108:27018"</span>, <span class="string">"state"</span> : <span class="number">1</span> &#125;</span><br><span class="line">active mongoses:</span><br><span class="line"><span class="string">"4.2.0"</span> : <span class="number">2</span></span><br><span class="line">autosplit:</span><br><span class="line">Currently enabled: yes</span><br><span class="line">balancer:</span><br><span class="line">Currently enabled: yes</span><br><span class="line">Currently running: no</span><br><span class="line">Failed balancer rounds <span class="keyword">in</span> last <span class="number">5</span> attempts: <span class="number">0</span></span><br><span class="line">Migration Results <span class="keyword">for</span> the last <span class="number">24</span> hours:</span><br><span class="line">No recent migrations</span><br><span class="line">databases:</span><br><span class="line">&#123; <span class="string">"_id"</span> : <span class="string">"config"</span>, <span class="string">"primary"</span> : <span class="string">"config"</span>, <span class="string">"partitioned"</span> : true &#125;</span><br><span class="line">config.system.sessions</span><br><span class="line">shard key: &#123; <span class="string">"_id"</span> : <span class="number">1</span> &#125;</span><br><span class="line">unique: false</span><br><span class="line">balancing: true</span><br><span class="line">chunks:</span><br><span class="line">rs01 <span class="number">1</span></span><br><span class="line">&#123; <span class="string">"_id"</span> : &#123; <span class="string">"<span class="variable">$minKey</span>"</span> : <span class="number">1</span> &#125; &#125; --&gt;&gt; &#123; <span class="string">"_id"</span> : &#123; <span class="string">"<span class="variable">$maxKey</span>"</span> : <span class="number">1</span> &#125; &#125; on : rs01 Timestamp(<span class="number">1</span>, <span class="number">0</span>)</span><br><span class="line">&#123; <span class="string">"_id"</span> : <span class="string">"scott"</span>, <span class="string">"primary"</span> : <span class="string">"rs02"</span>, <span class="string">"partitioned"</span> : true, <span class="string">"version"</span> : &#123; <span class="string">"uuid"</span> : UUID(<span class="string">"ae91198c-5d9b-4669-8ee3-3f11edce03a6"</span>), <span class="string">"lastMod"</span> : <span class="number">1</span> &#125; &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="第四节-数据管理"><a href="#第四节-数据管理" class="headerlink" title="第四节 数据管理"></a>第四节 数据管理</h2><h3 id="4-1-创建管理用户"><a href="#4-1-创建管理用户" class="headerlink" title="4.1 创建管理用户"></a>4.1 创建管理用户</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">use admin</span><br><span class="line">switched to db admin</span><br><span class="line">db.createUser(&#123;user:“root”,pwd:“root”,roles:[&#123;<span class="type">role</span>:“<span class="type">root</span>”,<span class="type">db</span>:“<span class="type">admin</span>”&#125;]&#125;)</span><br><span class="line">Successfully added user: &#123;</span><br><span class="line">“user” : “root”,</span><br><span class="line">“roles” : [</span><br><span class="line">&#123;</span><br><span class="line">“<span class="type">role</span>” : “<span class="type">root</span>”,</span><br><span class="line">“<span class="type">db</span>” : “<span class="type">admin</span>”</span><br><span class="line">&#125;</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="第三章-用户管理"><a href="#第三章-用户管理" class="headerlink" title="第三章 用户管理"></a>第三章 用户管理</h1><h2 id="第一节-用户查看"><a href="#第一节-用户查看" class="headerlink" title="第一节 用户查看"></a>第一节 用户查看</h2><h3 id="1-1-基本语法"><a href="#1-1-基本语法" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">--查看单个用户</span><br><span class="line">db.getUser( <span class="string">"&lt;username&gt;"</span>, &#123;</span><br><span class="line">showCredentials: &lt;Boolean&gt;,</span><br><span class="line">showPrivileges: &lt;Boolean&gt;,</span><br><span class="line">showAuthenticationRestrictions: &lt;Boolean&gt;,</span><br><span class="line"><span class="keyword">filter</span>: &lt;document&gt;</span><br><span class="line">&#125; )</span><br><span class="line">--查看所有用户</span><br><span class="line">db.getUsers( &#123;</span><br><span class="line">showCredentials: &lt;Boolean&gt;,</span><br><span class="line"><span class="keyword">filter</span>: &lt;document&gt;</span><br><span class="line">&#125; )</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-查看示例"><a href="#1-2-查看示例" class="headerlink" title="1.2 查看示例"></a>1.2 查看示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">--单个用户</span><br><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.getUser(<span class="string">"scott"</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"_id"</span> : <span class="string">"scott.scott"</span>,</span><br><span class="line"><span class="string">"userId"</span> : UUID(<span class="string">"9d580a1f-d8f6-47f6-af02-a090bb8a9123"</span>),</span><br><span class="line"><span class="string">"user"</span> : <span class="string">"scott"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"scott"</span>,</span><br><span class="line"><span class="string">"roles"</span> : [</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"read"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"hr"</span></span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line"><span class="string">"mechanisms"</span> : [</span><br><span class="line"><span class="string">"SCRAM-SHA-1"</span>,</span><br><span class="line"><span class="string">"SCRAM-SHA-256"</span></span><br><span class="line">]</span><br><span class="line">&#125;</span><br><span class="line">--所有用户</span><br><span class="line"></span><br><span class="line">&gt; use admin</span><br><span class="line">switched to db admin</span><br><span class="line">&gt; db.getUsers()</span><br><span class="line">[</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"_id"</span> : <span class="string">"admin.root"</span>,</span><br><span class="line"><span class="string">"userId"</span> : <span class="type">UUID</span>(<span class="string">"678bde68-119a-460b-8479-b6ef35c057f0"</span>),</span><br><span class="line"><span class="string">"user"</span> : <span class="string">"root"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"admin"</span>,</span><br><span class="line"><span class="string">"roles"</span> : [</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"root"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"admin"</span></span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line"><span class="string">"mechanisms"</span> : [</span><br><span class="line"><span class="string">"SCRAM-SHA-1"</span>,</span><br><span class="line"><span class="string">"SCRAM-SHA-256"</span></span><br><span class="line">]</span><br><span class="line">&#125;</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<h2 id="第二节-创建用户"><a href="#第二节-创建用户" class="headerlink" title="第二节 创建用户"></a>第二节 创建用户</h2><h3 id="1-1-基本语法-1"><a href="#1-1-基本语法-1" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">user: <span class="string">"&lt;name&gt;"</span>,</span><br><span class="line">pwd: passwordPrompt(), // Or <span class="string">"&lt;cleartext password&gt;"</span></span><br><span class="line">customData: &#123; &lt;any information&gt; &#125;,</span><br><span class="line">roles: [</span><br><span class="line">&#123; <span class="type">role</span>: <span class="string">"&lt;role&gt;"</span>, <span class="type">db</span>: <span class="string">"&lt;database&gt;"</span> &#125; | <span class="string">"&lt;role&gt;"</span>,</span><br><span class="line"><span class="type">...</span></span><br><span class="line">],</span><br><span class="line">authenticationRestrictions: [</span><br><span class="line">&#123;</span><br><span class="line"><span class="type">clientSource</span>: [<span class="string">"&lt;IP&gt;"</span> | <span class="string">"&lt;CIDR range&gt;"</span>, <span class="type">...</span>]</span><br><span class="line"><span class="type">serverAddress</span>: [<span class="string">"&lt;IP&gt;"</span> | <span class="string">"&lt;CIDR range&gt;"</span>, <span class="type">...</span>]</span><br><span class="line">&#125;,</span><br><span class="line"><span class="type">...</span></span><br><span class="line">],</span><br><span class="line">mechanisms: [ <span class="string">"&lt;SCRAM-SHA-1|SCRAM-SHA-256&gt;"</span>, <span class="type">...</span> ],</span><br><span class="line">passwordDigestor: <span class="string">"&lt;server|client&gt;"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-创建示例"><a href="#1-2-创建示例" class="headerlink" title="1.2 创建示例"></a>1.2 创建示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.createUser(&#123;user:<span class="string">"s1"</span>,pwd:<span class="string">"s1"</span>,roles:[&#123;<span class="type">role</span>:<span class="string">"readWrite"</span>,<span class="type">db</span>:<span class="string">"scott"</span>&#125;,&#123;<span class="type">role</span>:<span class="string">"read"</span>,<span class="type">db</span>:<span class="string">"hr"</span>&#125;]&#125;)</span><br><span class="line">Successfully added user: &#123;</span><br><span class="line"><span class="string">"user"</span> : <span class="string">"s1"</span>,</span><br><span class="line"><span class="string">"roles"</span> : [</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"readWrite"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"scott"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"read"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"hr"</span></span><br><span class="line">&#125;</span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="第三节-修改密码"><a href="#第三节-修改密码" class="headerlink" title="第三节 修改密码"></a>第三节 修改密码</h2><h3 id="1-1-基本语法-2"><a href="#1-1-基本语法-2" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.changeUserPassword(username, password)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-修改示例"><a href="#1-2-修改示例" class="headerlink" title="1.2 修改示例"></a>1.2 修改示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.changeUserPassword(<span class="string">"s1"</span>,<span class="string">"scott"</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="第三节-修改密码-1"><a href="#第三节-修改密码-1" class="headerlink" title="第三节 修改密码"></a>第三节 修改密码</h2><h3 id="1-1-基本语法-3"><a href="#1-1-基本语法-3" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">db.updateUser(</span><br><span class="line"><span class="string">"&lt;username&gt;"</span>,</span><br><span class="line">&#123;</span><br><span class="line">customData : &#123; &lt;any information&gt; &#125;,</span><br><span class="line">roles : [</span><br><span class="line">&#123; <span class="type">role</span>: <span class="string">"&lt;role&gt;"</span>, <span class="type">db</span>: <span class="string">"&lt;database&gt;"</span> &#125; | <span class="string">"&lt;role&gt;"</span>,</span><br><span class="line"><span class="type">...</span></span><br><span class="line">],</span><br><span class="line">pwd: passwordPrompt(), // Or <span class="string">"&lt;cleartext password&gt;"</span></span><br><span class="line">authenticationRestrictions: [</span><br><span class="line">&#123;</span><br><span class="line"><span class="type">clientSource</span>: [<span class="string">"&lt;IP&gt;"</span> | <span class="string">"&lt;CIDR range&gt;"</span>, <span class="type">...</span>],</span><br><span class="line"><span class="type">serverAddress</span>: [<span class="string">"&lt;IP&gt;"</span>, | <span class="string">"&lt;CIDR range&gt;"</span>, <span class="type">...</span>]</span><br><span class="line">&#125;,</span><br><span class="line"><span class="type">...</span></span><br><span class="line">],</span><br><span class="line">mechanisms: [ <span class="string">"&lt;SCRAM-SHA-1|SCRAM-SHA-256&gt;"</span>, <span class="type">...</span> ],</span><br><span class="line">passwordDigestor: <span class="string">"&lt;server|client&gt;"</span></span><br><span class="line">&#125;,</span><br><span class="line">writeConcern: &#123; &lt;write concern&gt; &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-修改示例-1"><a href="#1-2-修改示例-1" class="headerlink" title="1.2 修改示例"></a>1.2 修改示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.updateUser(<span class="string">"scott"</span>,&#123;pwd:<span class="string">"s1"</span>,customData:&#123;dept:<span class="string">"IT"</span>,tel:<span class="string">"150XXXXX"</span>&#125;&#125;)</span><br></pre></td></tr></table></figure>
+<h2 id="第三节-删除用户"><a href="#第三节-删除用户" class="headerlink" title="第三节 删除用户"></a>第三节 删除用户</h2><h3 id="1-1-基本语法-4"><a href="#1-1-基本语法-4" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.dropUser(username, writeConcern)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-修改示例-2"><a href="#1-2-修改示例-2" class="headerlink" title="1.2 修改示例"></a>1.2 修改示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.dropUser(<span class="string">"scott"</span>)</span><br><span class="line">true</span><br></pre></td></tr></table></figure>
+<h2 id="第三节-删除所有用户"><a href="#第三节-删除所有用户" class="headerlink" title="第三节 删除所有用户"></a>第三节 删除所有用户</h2><h3 id="1-1-基本语法-5"><a href="#1-1-基本语法-5" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.dropAllUsers(writeConcern)</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-修改示例-3"><a href="#1-2-修改示例-3" class="headerlink" title="1.2 修改示例"></a>1.2 修改示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.dropAllUsers()</span><br><span class="line">NumberLong(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="第三节-用户授权"><a href="#第三节-用户授权" class="headerlink" title="第三节 用户授权"></a>第三节 用户授权</h2><h3 id="1-1-基本语法-6"><a href="#1-1-基本语法-6" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.grantRolesToUser( <span class="string">"&lt;username&gt;"</span>, [ &lt;<span class="type">roles</span>&gt; ], &#123; &lt;writeConcern&gt; &#125; )</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-修改示例-4"><a href="#1-2-修改示例-4" class="headerlink" title="1.2 修改示例"></a>1.2 修改示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">&gt; use scott</span><br><span class="line"> </span><br><span class="line">switched to db scott</span><br><span class="line"> </span><br><span class="line">&gt; db.createUser(&#123;user:<span class="string">"s1"</span>,pwd:<span class="string">"s1"</span>,roles:[]&#125;)</span><br><span class="line">Successfully added user: &#123; <span class="string">"user"</span> : <span class="string">"s1"</span>, <span class="string">"roles"</span> : [ ] &#125;</span><br><span class="line">&gt; db.grantRolesToUser(<span class="string">"s1"</span>,[<span class="string">"readWrite"</span>,&#123;<span class="type">role</span>:<span class="string">"read"</span>,<span class="type">db</span>:<span class="string">"hr"</span>&#125;])</span><br><span class="line">&gt; db.getUser(<span class="string">"s1"</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"_id"</span> : <span class="string">"scott.s1"</span>,</span><br><span class="line"><span class="string">"userId"</span> : UUID(<span class="string">"ec26515f-2c71-4718-880b-27f5d51c7eae"</span>),</span><br><span class="line"><span class="string">"user"</span> : <span class="string">"s1"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"scott"</span>,</span><br><span class="line"><span class="string">"roles"</span> : [</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"readWrite"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"scott"</span></span><br><span class="line">&#125;,</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"read"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"hr"</span></span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line"><span class="string">"mechanisms"</span> : [</span><br><span class="line"><span class="string">"SCRAM-SHA-1"</span>,</span><br><span class="line"><span class="string">"SCRAM-SHA-256"</span></span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第三节-角色收回"><a href="#第三节-角色收回" class="headerlink" title="第三节 角色收回"></a>第三节 角色收回</h2><h3 id="1-1-基本语法-7"><a href="#1-1-基本语法-7" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.revokeRolesFromUser( <span class="string">"&lt;username&gt;"</span>, [ &lt;<span class="type">roles</span>&gt; ], &#123; &lt;writeConcern&gt; &#125; )</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-修改示例-5"><a href="#1-2-修改示例-5" class="headerlink" title="1.2 修改示例"></a>1.2 修改示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.revokeRolesFromUser(<span class="string">"s1"</span>,[&#123;<span class="type">role</span>:<span class="string">"read"</span>,<span class="type">db</span>:<span class="string">"hr"</span>&#125;])</span><br><span class="line">&gt; db.getUser(<span class="string">"s1"</span>)</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"_id"</span> : <span class="string">"scott.s1"</span>,</span><br><span class="line"><span class="string">"userId"</span> : UUID(<span class="string">"ec26515f-2c71-4718-880b-27f5d51c7eae"</span>),</span><br><span class="line"><span class="string">"user"</span> : <span class="string">"s1"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"scott"</span>,</span><br><span class="line"><span class="string">"roles"</span> : [</span><br><span class="line">&#123;</span><br><span class="line"><span class="string">"role"</span> : <span class="string">"readWrite"</span>,</span><br><span class="line"><span class="string">"db"</span> : <span class="string">"scott"</span></span><br><span class="line">&#125;</span><br><span class="line">],</span><br><span class="line"><span class="string">"mechanisms"</span> : [</span><br><span class="line"><span class="string">"SCRAM-SHA-1"</span>,</span><br><span class="line"><span class="string">"SCRAM-SHA-256"</span></span><br><span class="line">]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第三节-用户认证"><a href="#第三节-用户认证" class="headerlink" title="第三节 用户认证"></a>第三节 用户认证</h2><h3 id="1-1-基本语法-8"><a href="#1-1-基本语法-8" class="headerlink" title="1.1 基本语法"></a>1.1 基本语法</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">--方法一</span><br><span class="line">db.auth( &lt;username&gt;, passwordPrompt() )</span><br><span class="line">// Or</span><br><span class="line">db.auth( &lt;username&gt;, &lt;password&gt; )</span><br><span class="line">--方法二</span><br><span class="line">db.auth( &#123;</span><br><span class="line">user: &lt;username&gt;,</span><br><span class="line">pwd: passwordPrompt(), // Or <span class="string">"&lt;cleartext password&gt;"</span></span><br><span class="line">mechanism: &lt;authentication mechanism&gt;,</span><br><span class="line">digestPassword: &lt;boolean&gt;</span><br><span class="line">&#125; )</span><br></pre></td></tr></table></figure>
+
+<h3 id="1-2-修改示例-6"><a href="#1-2-修改示例-6" class="headerlink" title="1.2 修改示例"></a>1.2 修改示例</h3><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">示例<span class="number">1</span></span><br><span class="line">[<span class="type">mongod</span>@<span class="type">strong</span> ~]<span class="variable">$</span> mongo <span class="number">192.168</span>.<span class="number">56.102</span></span><br><span class="line">MongoDB shell version v4.<span class="number">2.0</span></span><br><span class="line">connecting to: mongodb://<span class="number">192.168</span>.<span class="number">56.102</span>:<span class="number">27017</span>/test?compressors=disabled&amp;gssapiServiceName=mongodb</span><br><span class="line">Implicit session: session &#123; <span class="string">"id"</span> : UUID(<span class="string">"0f30e70e-b04b-45ab-b44f-e2b31f93f01c"</span>) &#125;</span><br><span class="line">MongoDB server version: <span class="number">4.2</span>.<span class="number">0</span></span><br><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.auth(<span class="string">"s1"</span>,passwordPrompt())</span><br><span class="line">Enter password:</span><br><span class="line"><span class="number">1</span></span><br><span class="line">&gt; show collections</span><br><span class="line">dept</span><br><span class="line">emp</span><br><span class="line">foo</span><br><span class="line">inventory</span><br><span class="line">students</span><br><span class="line">user</span><br><span class="line">--示例<span class="number">2</span></span><br><span class="line"></span><br><span class="line">[<span class="type">mongod</span>@<span class="type">strong</span> ~]<span class="variable">$</span> mongo <span class="number">192.168</span>.<span class="number">56.102</span></span><br><span class="line">MongoDB shell version v4.<span class="number">2.0</span></span><br><span class="line">connecting to: mongodb://<span class="number">192.168</span>.<span class="number">56.102</span>:<span class="number">27017</span>/test?compressors=disabled&amp;gssapiServiceName=mongodb</span><br><span class="line">Implicit session: session &#123; <span class="string">"id"</span> : UUID(<span class="string">"32ed91e3-54a4-41e9-997c-54d6bca24b63"</span>) &#125;</span><br><span class="line">MongoDB server version: <span class="number">4.2</span>.<span class="number">0</span></span><br><span class="line">&gt; use scott</span><br><span class="line">switched to db scott</span><br><span class="line">&gt; db.auth(<span class="string">"s1"</span>,<span class="string">"s1"</span>)</span><br><span class="line"><span class="number">1</span></span><br><span class="line">&gt; show collections</span><br><span class="line">dept</span><br><span class="line">emp</span><br><span class="line">foo</span><br><span class="line">inventory</span><br><span class="line">students</span><br><span class="line">user</span><br></pre></td></tr></table></figure>
+
+<h1 id="第四章-数据管理"><a href="#第四章-数据管理" class="headerlink" title="第四章 数据管理"></a>第四章 数据管理</h1><h2 id="第一节-数据查询"><a href="#第一节-数据查询" class="headerlink" title="第一节 数据查询"></a>第一节 数据查询</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">db.collection.find()</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="第一节-数据删除"><a href="#第一节-数据删除" class="headerlink" title="第一节 数据删除"></a>第一节 数据删除</h2><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--多份数据删除</span><br><span class="line">db.getCollection(<span class="string">"OUTBOUND_MSG"</span>).deleteMany(</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="variable">$and:</span> [&#123;</span><br><span class="line">            <span class="string">"SentTime"</span>: &#123;</span><br><span class="line">                <span class="variable">$lt:</span> <span class="type">ISODate</span>(<span class="string">"2017-09-15 00:00:00"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;, &#123;</span><br><span class="line">            <span class="string">"SentTime"</span>: &#123;</span><br><span class="line">                <span class="variable">$gte:</span> <span class="type">ISODate</span>(<span class="string">"2017-09-01 00:00:00"</span>)</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;]</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br><span class="line">单份数据删除</span><br><span class="line">db.getCollection(<span class="string">"OUTBOUND_MSG"</span>).deleteOne</span><br></pre></td></tr></table></figure>
+
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2020/04/07/mongodb-manage/" data-title="MongoDB系统管理-标准文档 | 寒枫的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2020/04/07/mysql-conf/" title="mysql配置文件-标准文档">
+  <strong>上一篇：</strong><br/>
+  <span>
+  mysql配置文件-标准文档</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2020/04/07/mongodb-install/"  title="MongoDB数据库部署-标准文档">
+ <strong>下一篇：</strong><br/> 
+ <span>MongoDB数据库部署-标准文档
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#第一章-服务管理"><span class="toc-number">1.</span> <span class="toc-text">第一章 服务管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一节-单机管理"><span class="toc-number">1.1.</span> <span class="toc-text">第一节 单机管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-服务启动"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.1 服务启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-服务关闭"><span class="toc-number">1.1.2.</span> <span class="toc-text">1.2 服务关闭</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二节-集群管理"><span class="toc-number">1.2.</span> <span class="toc-text">第二节 集群管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-集群启动"><span class="toc-number">1.2.1.</span> <span class="toc-text">2.1 集群启动</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-集群停止"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.2 集群停止</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第二章-集群管理"><span class="toc-number">2.</span> <span class="toc-text">第二章 集群管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一节-基础配置"><span class="toc-number">2.1.</span> <span class="toc-text">第一节 基础配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-创建用户与用户组"><span class="toc-number">2.1.1.</span> <span class="toc-text">1.1 创建用户与用户组</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-MongoDB安装"><span class="toc-number">2.1.2.</span> <span class="toc-text">1.2 MongoDB安装</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-3-生成Key-File文件"><span class="toc-number">2.1.3.</span> <span class="toc-text">1.3 生成Key File文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-4-系统优化"><span class="toc-number">2.1.4.</span> <span class="toc-text">1.4 系统优化</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二节-集群配置"><span class="toc-number">2.2.</span> <span class="toc-text">第二节 集群配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#2-1-初始化配置副本集"><span class="toc-number">2.2.1.</span> <span class="toc-text">2.1 初始化配置副本集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-2-创建root用户"><span class="toc-number">2.2.2.</span> <span class="toc-text">2.2 创建root用户</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-3-初始化分片副本集"><span class="toc-number">2.2.3.</span> <span class="toc-text">2.3 初始化分片副本集</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-4-增加分片"><span class="toc-number">2.2.4.</span> <span class="toc-text">2.4 增加分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-5-激活数据库分片"><span class="toc-number">2.2.5.</span> <span class="toc-text">2.5 激活数据库分片</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-服务检查"><span class="toc-number">2.3.</span> <span class="toc-text">第三节 服务检查</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#3-1-查看分片"><span class="toc-number">2.3.1.</span> <span class="toc-text">3.1 查看分片</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-2-查看分片集群状态"><span class="toc-number">2.3.2.</span> <span class="toc-text">3.2 查看分片集群状态</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四节-数据管理"><span class="toc-number">2.4.</span> <span class="toc-text">第四节 数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#4-1-创建管理用户"><span class="toc-number">2.4.1.</span> <span class="toc-text">4.1 创建管理用户</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第三章-用户管理"><span class="toc-number">3.</span> <span class="toc-text">第三章 用户管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一节-用户查看"><span class="toc-number">3.1.</span> <span class="toc-text">第一节 用户查看</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法"><span class="toc-number">3.1.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-查看示例"><span class="toc-number">3.1.2.</span> <span class="toc-text">1.2 查看示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二节-创建用户"><span class="toc-number">3.2.</span> <span class="toc-text">第二节 创建用户</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-1"><span class="toc-number">3.2.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-创建示例"><span class="toc-number">3.2.2.</span> <span class="toc-text">1.2 创建示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-修改密码"><span class="toc-number">3.3.</span> <span class="toc-text">第三节 修改密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-2"><span class="toc-number">3.3.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-修改示例"><span class="toc-number">3.3.2.</span> <span class="toc-text">1.2 修改示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-修改密码-1"><span class="toc-number">3.4.</span> <span class="toc-text">第三节 修改密码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-3"><span class="toc-number">3.4.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-修改示例-1"><span class="toc-number">3.4.2.</span> <span class="toc-text">1.2 修改示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-删除用户"><span class="toc-number">3.5.</span> <span class="toc-text">第三节 删除用户</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-4"><span class="toc-number">3.5.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-修改示例-2"><span class="toc-number">3.5.2.</span> <span class="toc-text">1.2 修改示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-删除所有用户"><span class="toc-number">3.6.</span> <span class="toc-text">第三节 删除所有用户</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-5"><span class="toc-number">3.6.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-修改示例-3"><span class="toc-number">3.6.2.</span> <span class="toc-text">1.2 修改示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-用户授权"><span class="toc-number">3.7.</span> <span class="toc-text">第三节 用户授权</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-6"><span class="toc-number">3.7.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-修改示例-4"><span class="toc-number">3.7.2.</span> <span class="toc-text">1.2 修改示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-角色收回"><span class="toc-number">3.8.</span> <span class="toc-text">第三节 角色收回</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-7"><span class="toc-number">3.8.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-修改示例-5"><span class="toc-number">3.8.2.</span> <span class="toc-text">1.2 修改示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三节-用户认证"><span class="toc-number">3.9.</span> <span class="toc-text">第三节 用户认证</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-1-基本语法-8"><span class="toc-number">3.9.1.</span> <span class="toc-text">1.1 基本语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-2-修改示例-6"><span class="toc-number">3.9.2.</span> <span class="toc-text">1.2 修改示例</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#第四章-数据管理"><span class="toc-number">4.</span> <span class="toc-text">第四章 数据管理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一节-数据查询"><span class="toc-number">4.1.</span> <span class="toc-text">第一节 数据查询</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第一节-数据删除"><span class="toc-number">4.2.</span> <span class="toc-text">第一节 数据删除</span></a></li></ol></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据库/" title="数据库">数据库<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://sina.comc.cn" target="_blank" title="一个面向程序员交流分享的新一代社区">新浪网</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://baidu.com" target="_blank" title="百度">百度</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m hanyist Page in Google. <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="寒枫">寒枫</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

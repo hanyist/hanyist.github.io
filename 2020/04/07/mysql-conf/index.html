@@ -1,0 +1,446 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>mysql配置文件-标准文档 | 寒枫的博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="寒枫">
+    
+
+    
+    <meta name="description" content="一、MySQL5.7配置参考123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979">
+<meta property="og:type" content="article">
+<meta property="og:title" content="mysql配置文件-标准文档">
+<meta property="og:url" content="http://yoursite.com/2020/04/07/mysql-conf/index.html">
+<meta property="og:site_name" content="寒枫的博客">
+<meta property="og:description" content="一、MySQL5.7配置参考123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293949596979">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-04-07T09:11:04.000Z">
+<meta property="article:modified_time" content="2020-04-07T09:13:48.411Z">
+<meta property="article:author" content="寒枫">
+<meta name="twitter:card" content="summary">
+
+    
+    <link rel="alternative" href="/atom.xml" title="寒枫的博客" type="application/atom+xml">
+    
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    
+<link rel="stylesheet" href="/css/style.css">
+<link rel="stylesheet" href="/%02.css">
+<link rel="stylesheet" href="/.css">
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="寒枫的博客">寒枫的博客</a></h1>
+				<h2 class="blog-motto">志存高远</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">主页</a></li>
+					
+						<li><a href="/categories/操作系统">系统</a></li>
+					
+						<li><a href="/categories/数据库">数据库</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:yoursite.com">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2020/04/07/mysql-conf/" title="mysql配置文件-标准文档" itemprop="url">mysql配置文件-标准文档</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="寒枫" target="_blank" itemprop="author">寒枫</a>
+		
+  <p class="article-time">
+    <time datetime="2020-04-07T09:11:04.000Z" itemprop="datePublished"> 发表于 2020-04-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<h1 id="一、MySQL5-7配置参考"><a href="#一、MySQL5-7配置参考" class="headerlink" title="一、MySQL5.7配置参考"></a>一、MySQL5.7配置参考</h1><figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">## my.cnf for MySQL 5.7/8.0</span></span><br><span class="line"><span class="comment">## autoor: yejr(yejinrong@zhishutang.com, http://imysql.com, QQ: 4700963)</span></span><br><span class="line"><span class="comment">##</span></span><br><span class="line"><span class="comment">## 叶金荣(yejr)</span></span><br><span class="line"><span class="comment">## 靠谱优质的在线培训品牌知数堂培训(http://zhishuedu.com)联合创始人</span></span><br><span class="line"><span class="comment">## 新浪微博: @叶金荣, 微信公众：老叶茶馆(imysql_wx)</span></span><br><span class="line"><span class="comment">## QQ群: 650149401</span></span><br><span class="line"><span class="comment">## 注意：个别建议可能需要根据实际情况作调整，请自行判断或联系我，本人不对这些建议结果负相应责任</span></span><br><span class="line"><span class="comment">## 本配置文件主要适用于MySQL 5.7/8.0版本</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line">[<span class="type">client</span>]</span><br><span class="line">port	= <span class="number">3306</span></span><br><span class="line">socket	= /<span class="keyword">data</span>/mysql/mysql.sock</span><br><span class="line"></span><br><span class="line">[<span class="type">mysql</span>]</span><br><span class="line">prompt=<span class="string">"\u@mysqldb \R:\m:\s [\d]&gt; "</span></span><br><span class="line">no<span class="literal">-auto</span><span class="literal">-rehash</span></span><br><span class="line"></span><br><span class="line">[<span class="type">mysqld</span>]</span><br><span class="line">user	= mysql</span><br><span class="line">port	= <span class="number">3306</span></span><br><span class="line">basedir	= /usr/local/mysql</span><br><span class="line">datadir	= /<span class="keyword">data</span>/mysql/<span class="keyword">data</span></span><br><span class="line">socket	= /<span class="keyword">data</span>/mysql/mysql.sock</span><br><span class="line">pid<span class="operator">-file</span> = mysqldb.pid</span><br><span class="line">character<span class="literal">-set</span><span class="literal">-server</span> = utf8mb4</span><br><span class="line">skip_name_resolve = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#若你的MySQL数据库主要运行在境外，请务必根据实际情况调整本参数</span></span><br><span class="line">default_time_zone = <span class="string">"+8:00"</span></span><br><span class="line"></span><br><span class="line">open_files_limit    = <span class="number">65535</span></span><br><span class="line">back_log = <span class="number">1024</span></span><br><span class="line">max_connections = <span class="number">512</span></span><br><span class="line">max_connect_errors = <span class="number">1000000</span></span><br><span class="line">table_open_cache = <span class="number">1024</span></span><br><span class="line">table_definition_cache = <span class="number">1024</span></span><br><span class="line">table_open_cache_instances = <span class="number">64</span></span><br><span class="line">thread_stack = <span class="number">512</span>K</span><br><span class="line">external<span class="literal">-locking</span> = FALSE</span><br><span class="line">max_allowed_packet = <span class="number">32</span>M</span><br><span class="line">sort_buffer_size = <span class="number">4</span>M</span><br><span class="line">join_buffer_size = <span class="number">4</span>M</span><br><span class="line">thread_cache_size = <span class="number">768</span></span><br><span class="line">interactive_timeout = <span class="number">600</span></span><br><span class="line">wait_timeout = <span class="number">600</span></span><br><span class="line">tmp_table_size = <span class="number">32</span>M</span><br><span class="line">max_heap_table_size = <span class="number">32</span>M</span><br><span class="line">slow_query_log = <span class="number">1</span></span><br><span class="line">log_timestamps = SYSTEM</span><br><span class="line">slow_query_log_file = /<span class="keyword">data</span>/mysql/<span class="keyword">data</span>/slow.log</span><br><span class="line">log<span class="literal">-error</span> = /<span class="keyword">data</span>/mysql/<span class="keyword">data</span>/error.log</span><br><span class="line">long_query_time = <span class="number">0.1</span></span><br><span class="line">log_queries_not_using_indexes =<span class="number">1</span></span><br><span class="line">log_throttle_queries_not_using_indexes = <span class="number">60</span></span><br><span class="line">min_examined_row_limit = <span class="number">100</span></span><br><span class="line">log_slow_admin_statements = <span class="number">1</span></span><br><span class="line">log_slow_slave_statements = <span class="number">1</span></span><br><span class="line">server<span class="literal">-id</span> = <span class="number">3306</span></span><br><span class="line">log<span class="literal">-bin</span> = /<span class="keyword">data</span>/mysql/<span class="keyword">data</span>/mybinlog</span><br><span class="line">sync_binlog = <span class="number">1</span></span><br><span class="line">binlog_cache_size = <span class="number">4</span>M</span><br><span class="line">max_binlog_cache_size = <span class="number">2</span>G</span><br><span class="line">max_binlog_size = <span class="number">1</span>G</span><br><span class="line"></span><br><span class="line"><span class="comment">#注意：MySQL 8.0开始，binlog_expire_logs_seconds选项也存在的话，会忽略expire_logs_days选项</span></span><br><span class="line">expire_logs_days = <span class="number">7</span></span><br><span class="line"></span><br><span class="line">master_info_repository = TABLE</span><br><span class="line">relay_log_info_repository = TABLE</span><br><span class="line">gtid_mode = on</span><br><span class="line">enforce_gtid_consistency = <span class="number">1</span></span><br><span class="line">log_slave_updates</span><br><span class="line">slave<span class="literal">-rows</span><span class="literal">-search</span><span class="literal">-algorithms</span> = <span class="string">'INDEX_SCAN,HASH_SCAN'</span></span><br><span class="line">binlog_format = row</span><br><span class="line">binlog_checksum = <span class="number">1</span></span><br><span class="line">relay_log_recovery = <span class="number">1</span></span><br><span class="line">relay<span class="literal">-log</span><span class="literal">-purge</span> = <span class="number">1</span></span><br><span class="line">key_buffer_size = <span class="number">32</span>M</span><br><span class="line">read_buffer_size = <span class="number">8</span>M</span><br><span class="line">read_rnd_buffer_size = <span class="number">4</span>M</span><br><span class="line">bulk_insert_buffer_size = <span class="number">64</span>M</span><br><span class="line">myisam_sort_buffer_size = <span class="number">128</span>M</span><br><span class="line">myisam_max_sort_file_size = <span class="number">10</span>G</span><br><span class="line">myisam_repair_threads = <span class="number">1</span></span><br><span class="line">lock_wait_timeout = <span class="number">3600</span></span><br><span class="line">explicit_defaults_for_timestamp = <span class="number">1</span></span><br><span class="line">innodb_thread_concurrency = <span class="number">0</span></span><br><span class="line">innodb_sync_spin_loops = <span class="number">100</span></span><br><span class="line">innodb_spin_wait_delay = <span class="number">30</span></span><br><span class="line"></span><br><span class="line">transaction_isolation = REPEATABLE<span class="literal">-READ</span></span><br><span class="line"><span class="comment">#innodb_additional_mem_pool_size = 16M</span></span><br><span class="line">innodb_buffer_pool_size = <span class="number">2867</span>M</span><br><span class="line">innodb_buffer_pool_instances = <span class="number">4</span></span><br><span class="line">innodb_buffer_pool_load_at_startup = <span class="number">1</span></span><br><span class="line">innodb_buffer_pool_dump_at_shutdown = <span class="number">1</span></span><br><span class="line">innodb_data_file_path = ibdata1:<span class="number">1</span>G:autoextend</span><br><span class="line">innodb_flush_log_at_trx_commit = <span class="number">1</span></span><br><span class="line">innodb_log_buffer_size = <span class="number">32</span>M</span><br><span class="line">innodb_log_file_size = <span class="number">2</span>G</span><br><span class="line">innodb_log_files_in_group = <span class="number">2</span></span><br><span class="line">innodb_max_undo_log_size = <span class="number">4</span>G</span><br><span class="line">innodb_undo_directory = /<span class="keyword">data</span>/mysql/<span class="keyword">data</span>/undolog</span><br><span class="line">innodb_undo_tablespaces = <span class="number">95</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 根据您的服务器IOPS能力适当调整</span></span><br><span class="line"><span class="comment"># 一般配普通SSD盘的话，可以调整到 10000 - 20000</span></span><br><span class="line"><span class="comment"># 配置高端PCIe SSD卡的话，则可以调整的更高，比如 50000 - 80000</span></span><br><span class="line">innodb_io_capacity = <span class="number">4000</span></span><br><span class="line">innodb_io_capacity_max = <span class="number">8000</span></span><br><span class="line">innodb_flush_sync = <span class="number">0</span></span><br><span class="line">innodb_flush_neighbors = <span class="number">0</span></span><br><span class="line">innodb_write_io_threads = <span class="number">8</span></span><br><span class="line">innodb_read_io_threads = <span class="number">8</span></span><br><span class="line">innodb_purge_threads = <span class="number">4</span></span><br><span class="line">innodb_page_cleaners = <span class="number">4</span></span><br><span class="line">innodb_open_files = <span class="number">65535</span></span><br><span class="line">innodb_max_dirty_pages_pct = <span class="number">50</span></span><br><span class="line">innodb_flush_method = O_DIRECT</span><br><span class="line">innodb_lru_scan_depth = <span class="number">4000</span></span><br><span class="line">innodb_checksum_algorithm = crc32</span><br><span class="line">innodb_lock_wait_timeout = <span class="number">10</span></span><br><span class="line">innodb_rollback_on_timeout = <span class="number">1</span></span><br><span class="line">innodb_print_all_deadlocks = <span class="number">1</span></span><br><span class="line">innodb_file_per_table = <span class="number">1</span></span><br><span class="line">innodb_online_alter_log_max_size = <span class="number">4</span>G</span><br><span class="line">innodb_stats_on_metadata = <span class="number">0</span></span><br><span class="line">innodb_undo_log_truncate = <span class="number">1</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># some var for MySQL 5.7</span></span><br><span class="line">innodb_checksums = <span class="number">1</span></span><br><span class="line"><span class="comment">#innodb_file_format = Barracuda</span></span><br><span class="line"><span class="comment">#innodb_file_format_max = Barracuda</span></span><br><span class="line">query_cache_size = <span class="number">0</span></span><br><span class="line">query_cache_type = <span class="number">0</span></span><br><span class="line">innodb_undo_logs = <span class="number">128</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#注意：MySQL 8.0.16开始删除该选项</span></span><br><span class="line">internal_tmp_disk_storage_engine = InnoDB</span><br><span class="line"></span><br><span class="line">innodb_status_file = <span class="number">1</span></span><br><span class="line"><span class="comment">#注意: 开启 innodb_status_output &amp; innodb_status_output_locks 后, 可能会导致log-error文件增长较快</span></span><br><span class="line">innodb_status_output = <span class="number">0</span></span><br><span class="line">innodb_status_output_locks = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#performance_schema</span></span><br><span class="line">performance_schema = <span class="number">1</span></span><br><span class="line">performance_schema_instrument = <span class="string">'%memory%=on'</span></span><br><span class="line">performance_schema_instrument = <span class="string">'%lock%=on'</span></span><br><span class="line"></span><br><span class="line"><span class="comment">#innodb monitor</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_innodb"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_server"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_dml"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_ddl"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_trx"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_os"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_purge"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_log"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_lock"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_buffer"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_index"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_ibuf_system"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_buffer_page"</span></span><br><span class="line">innodb_monitor_enable=<span class="string">"module_adaptive_hash"</span></span><br><span class="line"></span><br><span class="line">[<span class="type">mysqldump</span>]</span><br><span class="line">quick</span><br><span class="line">max_allowed_packet = <span class="number">32</span>M</span><br></pre></td></tr></table></figure>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/">数据库</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://yoursite.com/2020/04/07/mysql-conf/" data-title="mysql配置文件-标准文档 | 寒枫的博客" data-tsina="" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2020/04/07/mongodb-manage/"  title="MongoDB系统管理-标准文档">
+ <strong>下一篇：</strong><br/> 
+ <span>MongoDB系统管理-标准文档
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#一、MySQL5-7配置参考"><span class="toc-number">1.</span> <span class="toc-text">一、MySQL5.7配置参考</span></a></li></ol>
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/操作系统/" title="操作系统">操作系统<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/数据库/" title="数据库">数据库<sup>4</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="http://sina.comc.cn" target="_blank" title="一个面向程序员交流分享的新一代社区">新浪网</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="https://baidu.com" target="_blank" title="百度">百度</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m hanyist Page in Google. <br/>
+			</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2020 
+		
+		<a href="/about" target="_blank" title="寒枫">寒枫</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
